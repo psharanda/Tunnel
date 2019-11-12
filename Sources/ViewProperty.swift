@@ -12,16 +12,14 @@ extension Tunnels {
         private let animateClosure: (UIViewControllerContextTransitioning) -> Void
         private let uninstallClosure: (UIViewControllerContextTransitioning) -> Void
         
-        public init<T>(key: UITransitionContextViewKey, from: T? = nil, to: T, getter: @escaping (UIView) -> T, setter: @escaping (UIView, T) -> Void) {
+        public init<T>(key: UITransitionContextViewKey, from: T, to: T, getter: @escaping (UIView) -> T, setter: @escaping (UIView, T) -> Void) {
             
             var previous: T?
             
             installClosure = { (transitionContext: UIViewControllerContextTransitioning) in
                 if let view = transitionContext.view(forKey: key) {
                     previous = getter(view)
-                    if let from = from {
-                       setter(view, from)
-                    }
+                    setter(view, from)
                 }
                 
             }
@@ -56,28 +54,28 @@ extension Tunnels {
     
     public final class Alpha: ViewProperty {
         
-        public init(key: UITransitionContextViewKey, from: CGFloat? = nil, to: CGFloat) {
+        public init(key: UITransitionContextViewKey, from: CGFloat, to: CGFloat) {
             super.init(key: key, from: from, to: to, getter: { $0.alpha }, setter: { $0.alpha = $1 })
         }
     }
     
     public final class Transform: ViewProperty {
         
-        public init(key: UITransitionContextViewKey, from: CGAffineTransform? = nil, to: CGAffineTransform) {
+        public init(key: UITransitionContextViewKey, from: CGAffineTransform, to: CGAffineTransform) {
             super.init(key: key, from: from, to: to, getter: { $0.transform }, setter: { $0.transform = $1 })
         }
     }
     
     public final class Bounds: ViewProperty {
         
-        public init(key: UITransitionContextViewKey, from: CGRect? = nil, to: CGRect) {
+        public init(key: UITransitionContextViewKey, from: CGRect, to: CGRect) {
             super.init(key: key, from: from, to: to, getter: { $0.bounds }, setter: { $0.bounds = $1 })
         }
     }
     
     public final class Center: ViewProperty {
         
-        public init(key: UITransitionContextViewKey, from: CGPoint? = nil, to: CGPoint) {
+        public init(key: UITransitionContextViewKey, from: CGPoint, to: CGPoint) {
             super.init(key: key, from: from, to: to, getter: { $0.center }, setter: { $0.center = $1 })
         }
     }

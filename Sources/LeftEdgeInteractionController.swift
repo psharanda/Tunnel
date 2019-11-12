@@ -9,11 +9,11 @@ public final class LeftEdgeInteractionController {
     
     public var edgePanGestureRecognizer: UIScreenEdgePanGestureRecognizer?
     
-    public var interactionController: UIPercentDrivenInteractiveTransition? {
-        return _interactionController
+    public var interactiveTransition: UIViewControllerInteractiveTransitioning? {
+        return percentDrivenInteractiveTransition
     }
     
-    private var _interactionController: UIPercentDrivenInteractiveTransition?
+    private var percentDrivenInteractiveTransition: UIPercentDrivenInteractiveTransition?
     
     private weak var navigationController: UINavigationController?
     
@@ -47,24 +47,22 @@ public final class LeftEdgeInteractionController {
         
         switch gesture.state {
         case .began:
-            _interactionController = UIPercentDrivenInteractiveTransition()
+            percentDrivenInteractiveTransition = UIPercentDrivenInteractiveTransition()
             navigationController?.popViewController(animated: true)
         case .changed:
-            _interactionController?.update(percent)
+            percentDrivenInteractiveTransition?.update(percent)
             
         case .ended:
-            let velocity = gesture.velocity(in: gesture.view)
-    
+            let velocity = gesture.velocity(in: gesture.view)    
             if percent > 0.5 || velocity.x > 0 {
-                _interactionController?.finish()
+                percentDrivenInteractiveTransition?.finish()
+            } else {
+                percentDrivenInteractiveTransition?.cancel()
             }
-            else {
-                _interactionController?.cancel()
-            }
-            _interactionController = nil
+            percentDrivenInteractiveTransition = nil
         case .cancelled:
-            _interactionController?.cancel()
-            _interactionController = nil
+            percentDrivenInteractiveTransition?.cancel()
+            percentDrivenInteractiveTransition = nil
         default:
             break
         }

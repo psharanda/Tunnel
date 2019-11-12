@@ -114,6 +114,7 @@ public final class AnimatedTransition: NSObject, UIViewControllerAnimatedTransit
             
             let completion = { (finished: Bool) in
                 self.tunnels.forEach { $0.uninstall(using: transitionContext) }
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
             }
             
             switch animationType {
